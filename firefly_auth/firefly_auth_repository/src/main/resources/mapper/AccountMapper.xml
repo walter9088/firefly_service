@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.firefly.auth.repository.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="com.firefly.auth.repository.entity.AccountEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="account_status" property="accountStatus" jdbcType="VARCHAR"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_name, nick_name, password, email, mobile, account_status, last_login_time, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.firefly.auth.repository.entity.AccountEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into account (
+            id,
+            user_name,
+            nick_name,
+            password,
+            email,
+            mobile,
+            account_status,
+            last_login_time,
+            create_time,
+            update_time
+        )
+        values (
+            #{id,jdbcType=BIGINT},
+            #{userName,jdbcType=VARCHAR},
+            #{nickName,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{mobile,jdbcType=VARCHAR},
+            #{accountStatus,jdbcType=VARCHAR},
+            #{lastLoginTime,jdbcType=TIMESTAMP},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByNickName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account
+        where nick_name = #{nickName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByEmail" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account
+        where email = #{email,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByMobile" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account
+        where mobile = #{mobile,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateLastLogin">
+        update account
+        set last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+        where id = #{userId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateStatus">
+        update account
+        set account_status = #{status,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{userId,jdbcType=BIGINT}
+    </update>
+</mapper> 

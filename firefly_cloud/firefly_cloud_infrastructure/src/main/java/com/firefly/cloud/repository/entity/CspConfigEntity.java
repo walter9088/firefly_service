@@ -1,0 +1,63 @@
+package com.firefly.cloud.repository.entity;
+
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class CspConfigEntity {
+    /**
+     * 存储桶唯一标识
+     */
+    private Long id;
+
+    /**
+     * 云存服务商：huawei,ali,s3
+     */
+    private String csp;
+
+    /**
+     * 存储桶
+     */
+    private String bucket;
+
+    /**
+     * 区域id
+     */
+    private String region;
+
+    /**
+     * oss存储地域ID
+     */
+    private String ossRegion;
+
+    /**
+     * 外网访问endpoint
+     */
+    private String internetEndpoint;
+
+    /**
+     * 内网endpoint
+     */
+    private String intranetEndpoint;
+
+    /**
+     * 令牌ak
+     */
+    private String accessKey;
+
+    /**
+     * 令牌秘钥
+     */
+    private String secret;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+} 

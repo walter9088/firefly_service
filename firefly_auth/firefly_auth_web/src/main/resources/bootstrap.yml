@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: firefly-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: firefly
+        group: auth
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: firefly
+        group: auth
+        file-extension: yaml
+        shared-configs:
+          - data-id: common.yml
+            group: common
+            refresh: true 
