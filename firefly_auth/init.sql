@@ -80,3 +80,45 @@ INSERT INTO permission (permission_name, permission_code, resource_type, resourc
 ('用户管理', 'user:manage', 'menu', '/user', '用户管理菜单'),
 ('角色管理', 'role:manage', 'menu', '/role', '角色管理菜单'),
 ('权限管理', 'permission:manage', 'menu', '/permission', '权限管理菜单'); 
+
+
+-- firefly.account definition
+
+CREATE TABLE `account` (
+  `id` bigint NOT NULL COMMENT '用户唯一ID',
+  `user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '登录账号（唯一）',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '加密后的密码',
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '验证邮箱（唯一）',
+  `mobile` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '手机号（带国际区号）',
+  `account_status` enum('ACTIVE','LOCKED','DELETED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ACTIVE' COMMENT '账号状态',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `nick_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_username` (`user_name`),
+  UNIQUE KEY `uniq_email` (`email`),
+  UNIQUE KEY `uniq_mobile` (`mobile`),
+  KEY `idx_status` (`account_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户账户表';
+
+
+-- firefly.organization definition
+
+CREATE TABLE `organization` (
+  `org_id` int NOT NULL AUTO_INCREMENT,
+  `org_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner_id` int NOT NULL COMMENT '关联用户表的用户ID',
+  `org_type` enum('DEFAULT','CUSTOM') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'DEFAULT',
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `founded_date` date DEFAULT NULL,
+  `address` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`org_id`),
+  UNIQUE KEY `org_name` (`org_name`),
+  KEY `idx_owner_id` (`owner_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
